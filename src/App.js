@@ -1,7 +1,9 @@
+import Products from "./pages/Products/Products";
+
 function App() {
   return (
     <div >
-     
+     <Products/>
     </div>
   );
 }
