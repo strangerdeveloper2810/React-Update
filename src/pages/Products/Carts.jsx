@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
-
+import {useSelector} from "react-redux"
 export default function Carts(props) {
+  const {cart}  = useSelector(state => state.shopReducer);
   return (
     <Fragment>
       <h3 className="text-center text-success">Carts</h3>
@@ -18,21 +19,23 @@ export default function Carts(props) {
             </tr>
           </thead>
           <tbody>
-            <tr>
-                <td>1</td>
-                <td>Product 1</td>
-                <td>
-                    <img src="https://i.pravatar.cc?u=1" alt="item" width={50} />
-                </td>
-                <td>1.000</td>
-                <td>10</td>
-                <td>10.000</td>
-                <td>
-                    <button className="btn btn-danger">
-                        Delete
-                    </button>
-                </td>
-            </tr>
+            {cart.map((item, index)=>(
+              <tr key={index}>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>
+                  <img src={item.image} alt={item.name} width={50} />
+              </td>
+              <td>{item.price}</td>
+              <td>{item.quantity}</td>
+              <td>{(item.quantity * item.price).toLocaleString()}</td>
+              <td>
+                  <button className="btn btn-danger">
+                      Delete
+                  </button>
+              </td>
+          </tr>
+            ))}
           </tbody>
         </table>
       </div>

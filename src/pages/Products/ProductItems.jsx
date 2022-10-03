@@ -1,17 +1,14 @@
 import React from "react";
 
 export default function ProductItems(props) {
+  const { product } = props;
   return (
-    <div className="card text-white bg-primary" style={{ width: "20rem" }}>
-      <img
-        className="card-img-top"
-        src="https://i.pravatar.cc?u=1"
-        alt="item"
-      />
+    <div className="card text-white bg-success mt-3" style={{height: 550, width: 350}}>
+      <img className="card-img-top" src={product.image} alt={product.name} style={{width:350, height: 353}}/>
       <div className="card-body">
         <div className="card-title">
-          <h2>Product 1</h2>
-          <p>1000</p>
+          <h2>{product.name}</h2>
+          <p>{product.price.toLocaleString()} $</p>
         </div>
         <p className="card-text">
           <button className="btn btn-info">
