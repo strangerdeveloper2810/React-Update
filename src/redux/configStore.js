@@ -1,11 +1,9 @@
-import  {configureStore} from "@reduxjs/toolkit";
-
-export const store = configureStore({
+import {configureStore} from "@reduxjs/toolkit"
+import shopReducer from "./reducers/shopReducer";
+const store = configureStore({
     reducer: {
-        stateNumber: (state = 1)=> {
-            return state
-        }
+        shopReducer
     }
 });
 
-export default store;
+export default store
