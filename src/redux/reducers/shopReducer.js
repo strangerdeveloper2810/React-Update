@@ -2,15 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  cart: [
-    {
-      id: 1,
-      name: "product1",
-      image: "https://i.pravatar.cc?u=1",
-      price: 1000,
-      quantity: 10,
-    },
-  ],
+  cart: [],
 
   dataProduct: [
     {
@@ -39,13 +31,27 @@ const shopReducer = createSlice({
   initialState,
   reducers: {
     getProductApiAction: (state, action) => {
-        console.log(action);
       state.dataProduct = action.payload;
+    },
+
+    addToCartAction: (state, action) => {
+      const itemCart = state.cart.find((item) => item.id === action.payload.id);
+      if (itemCart) {
+        itemCart.quantity += 1;
+      } else {
+        state.cart.push(action.payload);
+      }
+    },
+
+    deleteCartAction: (state, action) => {
+      const id = action.payload;
+      state.cart = state.cart.filter(item => item.id !== id);
     },
   },
 });
 
-export const { getProductApiAction } = shopReducer.actions;
+export const { getProductApiAction, addToCartAction, deleteCartAction } =
+  shopReducer.actions;
 
 export default shopReducer.reducer;
 
@@ -62,12 +68,12 @@ export const getAllProductApi = () => {
       //     type: "shopReducer/getProductApi",
       //     data: result.data.content,
       //   });
-      const action =  getProductApiAction(result.data.content);
+      const action = getProductApiAction(result.data.content);
       dispatch(action);
-    //   action = {
-    //     type: "shopReducer/getProductApi",
-    //     payload: result.data.content
-    // }
+      //   action = {
+      //     type: "shopReducer/getProductApi",
+      //     payload: result.data.content
+      // }
     } catch (error) {
       console.log(error);
     }

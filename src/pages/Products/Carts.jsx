@@ -1,7 +1,14 @@
 import React, { Fragment } from "react";
-import {useSelector} from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
+import { deleteCartAction } from "../../redux/reducers/shopReducer";
 export default function Carts(props) {
-  const {cart}  = useSelector(state => state.shopReducer);
+  const { cart } = useSelector((state) => state.shopReducer);
+  const dispatch = useDispatch();
+
+  const deleteItem = (id) => {
+    const action = deleteCartAction(id);
+    dispatch(action);
+  };
   return (
     <Fragment>
       <h3 className="text-center text-success">Carts</h3>
@@ -19,22 +26,22 @@ export default function Carts(props) {
             </tr>
           </thead>
           <tbody>
-            {cart.map((item, index)=>(
+            {cart.map((item, index) => (
               <tr key={index}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>
                   <img src={item.image} alt={item.name} width={50} />
-              </td>
-              <td>{item.price}</td>
-              <td>{item.quantity}</td>
-              <td>{(item.quantity * item.price).toLocaleString()}</td>
-              <td>
-                  <button className="btn btn-danger">
-                      Delete
-                  </button>
-              </td>
-          </tr>
+                </td>
+                <td>{item.price} $</td>
+                <td>{item.quantity}</td>
+                <td>{(item.quantity * item.price).toLocaleString()} $</td>
+                <td>
+                  <button className="btn btn-danger" onClick={()=>{
+                    deleteItem(item.id)
+                  }}>Delete</button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>

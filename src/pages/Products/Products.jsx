@@ -7,15 +7,15 @@ import { getAllProductApi } from "../../redux/reducers/shopReducer";
 export default function Products(props) {
   const { dataProduct } = useSelector((state) => state.shopReducer);
   const dispatch = useDispatch();
-  useEffect(()=>{
+  useEffect(() => {
     const actionThunk = getAllProductApi();
     // dispatch action thunk
     dispatch(actionThunk);
-  },[]);
+  }, [dispatch]);
   return (
     <div className="container">
       <h3 className="text-center text-danger">Shoes Shop</h3>
-
+      <Carts />
       <h3 className="mt-2">Product List</h3>
       <div className="row">
         {dataProduct.map((product, index) => (
@@ -24,7 +24,6 @@ export default function Products(props) {
           </div>
         ))}
       </div>
-      <Carts />
     </div>
   );
 }
