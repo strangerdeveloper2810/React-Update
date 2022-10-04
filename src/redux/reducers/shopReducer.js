@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const initialState = {
   cart: [],
@@ -45,13 +46,42 @@ const shopReducer = createSlice({
 
     deleteCartAction: (state, action) => {
       const id = action.payload;
-      state.cart = state.cart.filter(item => item.id !== id);
+      state.cart = state.cart.filter((item) => item.id !== id);
+       Swal.fire({
+          icon: "success",
+          title: "success",
+          text: "Delete Item Success!",
+        });
+    },
+
+    upAndDownItemAction: (state, action) => {
+      const { id, quantity } = action.payload;
+      const itemCart = state.cart.find((item) => item.id === id);
+      if (itemCart) {
+        itemCart.quantity += quantity;
+      }
+      if (itemCart.quantity < 1) {
+        // Swal.fire({
+        //   icon: "error",
+        //   title: "Opps!",
+        //   text: "Số lượng nhỏ hơn 1!",
+        // });
+        if (window.confirm("Do you wan to delete it???")) {
+          state.cart = state.cart.filter((item) => item.id !== id);
+        } else {
+          itemCart.quantity -= quantity;
+        }
+      }
     },
   },
 });
 
-export const { getProductApiAction, addToCartAction, deleteCartAction } =
-  shopReducer.actions;
+export const {
+  getProductApiAction,
+  addToCartAction,
+  deleteCartAction,
+  upAndDownItemAction,
+} = shopReducer.actions;
 
 export default shopReducer.reducer;
 

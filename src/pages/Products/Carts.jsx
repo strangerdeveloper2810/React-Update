@@ -1,6 +1,9 @@
 import React, { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteCartAction } from "../../redux/reducers/shopReducer";
+import {
+  deleteCartAction,
+  upAndDownItemAction,
+} from "../../redux/reducers/shopReducer";
 export default function Carts(props) {
   const { cart } = useSelector((state) => state.shopReducer);
   const dispatch = useDispatch();
@@ -9,6 +12,7 @@ export default function Carts(props) {
     const action = deleteCartAction(id);
     dispatch(action);
   };
+
   return (
     <Fragment>
       <h3 className="text-center text-success">Carts</h3>
@@ -34,12 +38,47 @@ export default function Carts(props) {
                   <img src={item.image} alt={item.name} width={50} />
                 </td>
                 <td>{item.price} $</td>
-                <td>{item.quantity}</td>
+                <td>
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={() => {
+                      const itemQuantity = {
+                        id: item.id,
+                        quantity: 1,
+                      };
+                      const action = upAndDownItemAction(itemQuantity);
+                      dispatch(action);
+                    }}
+                  >
+                    <i className="fa fa-plus"></i>
+                  </button>
+
+                  {item.quantity}
+
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={() => {
+                      const itemQuantity = {
+                        id: item.id,
+                        quantity: -1,
+                      };
+                      const action = upAndDownItemAction(itemQuantity);
+                      dispatch(action);
+                    }}
+                  >
+                    -
+                  </button>
+                </td>
                 <td>{(item.quantity * item.price).toLocaleString()} $</td>
                 <td>
-                  <button className="btn btn-danger" onClick={()=>{
-                    deleteItem(item.id)
-                  }}>Delete</button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      deleteItem(item.id);
+                    }}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
