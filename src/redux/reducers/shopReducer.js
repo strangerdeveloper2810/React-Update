@@ -2,9 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  cart: [
-    
-  ],
+  cart: [],
 
   dataProduct: [
     {
@@ -37,7 +35,6 @@ const shopReducer = createSlice({
     },
 
     addToCartAction: (state, action) => {
-      console.log(state);
       const itemCart = state.cart.find((item) => item.id === action.payload.id);
       if (itemCart) {
         itemCart.quantity += 1;
@@ -45,10 +42,16 @@ const shopReducer = createSlice({
         state.cart.push(action.payload);
       }
     },
+
+    deleteCartAction: (state, action) => {
+      const id = action.payload;
+      state.cart = state.cart.filter(item => item.id !== id);
+    },
   },
 });
 
-export const { getProductApiAction, addToCartAction } = shopReducer.actions;
+export const { getProductApiAction, addToCartAction, deleteCartAction } =
+  shopReducer.actions;
 
 export default shopReducer.reducer;
 

@@ -1,7 +1,14 @@
 import React, { Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteCartAction } from "../../redux/reducers/shopReducer";
 export default function Carts(props) {
   const { cart } = useSelector((state) => state.shopReducer);
+  const dispatch = useDispatch();
+
+  const deleteItem = (id) => {
+    const action = deleteCartAction(id);
+    dispatch(action);
+  };
   return (
     <Fragment>
       <h3 className="text-center text-success">Carts</h3>
@@ -30,7 +37,9 @@ export default function Carts(props) {
                 <td>{item.quantity}</td>
                 <td>{(item.quantity * item.price).toLocaleString()} $</td>
                 <td>
-                  <button className="btn btn-danger">Delete</button>
+                  <button className="btn btn-danger" onClick={()=>{
+                    deleteItem(item.id)
+                  }}>Delete</button>
                 </td>
               </tr>
             ))}
